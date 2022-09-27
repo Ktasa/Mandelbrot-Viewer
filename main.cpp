@@ -7,7 +7,11 @@ using namespace sf;
 
 int main ()
 {
-    VideoMode vm(1920, 1080);
+    int resolutionWidth = VideoMode::getDesktopMode().width;
+    int resolutionHeight = VideoMode::getDesktopMode().height;
+    //double aspectRatio = resolutionHeight / resolutionWidth;
+
+    VideoMode vm(resolutionWidth, resolutionHeight);
 
     RenderWindow window(vm, "Mandelbrot Viewer", Style::Default);
 

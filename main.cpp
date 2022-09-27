@@ -22,7 +22,7 @@ int main ()
 
     }
 
-
+    //sample complex number program from canvas instructions page
     double re = -0.77568377;
     double im = 0.13646737;
     complex<double> c (re, im);

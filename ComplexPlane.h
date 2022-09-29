@@ -20,14 +20,14 @@ public:
     void loadText(Text& text);
     View getView();
     size_t countIterations(Vector2f coord);
-    void iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b);
+    //void iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b);
+    void iterationsToBW(size_t count, Uint8& shade); 
 
 private:
     View view;
     Vector2f mouseLocation;
     int zoomCount;
     double aspectRatio;
-
 };
 
 #endif

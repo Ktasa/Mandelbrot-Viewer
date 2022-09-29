@@ -7,9 +7,10 @@ using namespace sf;
 
 int main ()
 {
+    //set up window
     int resolutionWidth = VideoMode::getDesktopMode().width;
     int resolutionHeight = VideoMode::getDesktopMode().height;
-    //double aspectRatio = resolutionHeight / resolutionWidth;
+    double aspectRatio = resolutionHeight / resolutionWidth;
 
     VideoMode vm(resolutionWidth, resolutionHeight);
 
@@ -17,25 +18,34 @@ int main ()
 
     RectangleShape rectangle;
 
+    //iteration counter test
+    Vector2f test_coord;
+    test_coord.x = 5;
+    test_coord.y = 0; //imaginary part
+    ComplexPlane test_plane(aspectRatio); 
+    test_plane.countIterations(test_coord);
+
+
+    //set up default view on start:
+    //calculate all colors (black & white) for each pixel by counting iterations
+    //draw text (requires checking mouse position)
+
     while(window.isOpen())
     {
+        //get mouse location / check mouse input
 
+        //if mouse moves:
+        //update text (must update when mouse position moves)
+        //"Mandelbrot Set", "Center (x, y)", "Cursor (x, y)"
+        //"Left-Click to Zoom In", "Right-Click to Zoom Out"
+
+        //if mouse click:
+        //calculate new View, remap pixels to comlpex plane coords
+        //calculate color of each pixel
+        //update text
+        //display updated screen at the end
     }
 
-    //sample complex number program from canvas instructions page
-    double re = -0.77568377;
-    double im = 0.13646737;
-    complex<double> c (re, im);
-    complex<double> z (0,0);
-    cout << "c = " << c << "\t";
-    cout << "|c| = " << abs(c) << endl;
-    cout << "Real component of c: " << c.real() << endl;
-    cout << "Imaginary component of c: " << c.imag() << endl;
-    z = z*z + c;
-    cout << "z_2 = " << z << "\t";
-    cout << "|z_2| = " << abs(z) << endl;
-    z = z*z + c;
-    cout << "z_3 = " << z << "\t";
-    cout << "|z_3| = " << abs(z) << endl;
     return 0;
+    
 }

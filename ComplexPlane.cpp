@@ -4,21 +4,53 @@
 using namespace std;
 using namespace sf;
 #include <iostream>
+#include <cmath>
 
     ComplexPlane::ComplexPlane(double aspectRatio)
-    {}
+    {
+        m_aspectRatio = aspectRatio;
+        m_view.setSize(BASE_WIDTH, -BASE_HEIGHT * m_aspectRatio);
+        m_view.setCenter(0.0, 0.0);
+        m_zoomCount = 0;
+    }
     void ComplexPlane::zoomIn()
-    {}
+    {
+        m_zoomCount++;
+        double x_size = BASE_WIDTH * pow(BASE_ZOOM, m_zoomCount);
+        double y_size = BASE_HEIGHT * m_aspectRatio * pow(BASE_ZOOM, m_zoomCount);
+        m_view.setSize(x_size, -y_size);
+    }
     void ComplexPlane::zoomOut()
-    {}
+    {
+        m_zoomCount--;
+        double x_size = BASE_WIDTH * pow(BASE_ZOOM, m_zoomCount);
+        double y_size = BASE_HEIGHT * m_aspectRatio * pow(BASE_ZOOM, m_zoomCount);
+        m_view.setSize(x_size, -y_size);
+    }
     void ComplexPlane::setCenter(Vector2f coord)
-    {}
+    {
+        m_view.setCenter(coord.x, coord.y);
+        //sf::View::setCenter() is its own SFML function
+    }
     void ComplexPlane::setMouseLocation(Vector2f coord)
-    {}
+    {
+        m_mouseLocation.x = coord.x;
+        m_mouseLocation.y = coord.y;
+    }
     void ComplexPlane::loadText(Text& text)
-    {}
+    {
+        //use stringstream and corresponding member variables
+        //to create output
+        //Mandelbrot Set
+        //Center:(0,0)
+        //Cursor:(0,0)
+        //Left-click to Zoom In
+        //Right-click to Zoom Out
+    }
     View ComplexPlane::getView()
-    {}
+    {
+        return m_view;
+    }
     size_t ComplexPlane::countIterations(Vector2f coord)
     {
         double re = coord.x;
@@ -42,7 +74,7 @@ using namespace sf;
     }
     
     //void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b){}
-
+    //actually BW can still use RGB values so maybe keep the 1st function
     void ComplexPlane::iterationsToBW(size_t count, Uint8& shade)
     {
         double iter_ratio = count / 64.0;

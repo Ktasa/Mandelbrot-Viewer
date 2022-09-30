@@ -25,25 +25,13 @@ int main ()
     ComplexPlane test_plane(aspectRatio); 
     test_plane.countIterations(test_coord);
 
+    enum State{ CALCULATING, DISPLAYING };
+    State progState = CALCULATING;
 
-    //set up default view on start:
-    //calculate all colors (black & white) for each pixel by counting iterations
-    //draw text (requires checking mouse position)
 
     while(window.isOpen())
     {
-        //get mouse location / check mouse input
-
-        //if mouse moves:
-        //update text (must update when mouse position moves)
-        //"Mandelbrot Set", "Center (x, y)", "Cursor (x, y)"
-        //"Left-Click to Zoom In", "Right-Click to Zoom Out"
-
-        //if mouse click:
-        //calculate new View, remap pixels to comlpex plane coords
-        //calculate color of each pixel
-        //update text
-        //display updated screen at the end
+ 
     }
 
     return 0;

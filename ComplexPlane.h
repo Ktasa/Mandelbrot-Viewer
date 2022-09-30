@@ -24,10 +24,10 @@ public:
     void iterationsToBW(size_t count, Uint8& shade); 
 
 private:
-    View view;
-    Vector2f mouseLocation;
-    int zoomCount;
-    double aspectRatio;
+    View m_view;
+    Vector2f m_mouseLocation;
+    int m_zoomCount;
+    double m_aspectRatio;
 };
 
 #endif

@@ -4,6 +4,7 @@
 #include "ComplexPlane.h"
 using namespace std;
 using namespace sf;
+#include <sstream>
 
 int main ()
 {
@@ -28,10 +29,20 @@ int main ()
     enum State{ CALCULATING, DISPLAYING };
     State progState = CALCULATING;
 
+    test_plane.loadAllText(window);
 
+    Event input;
     while(window.isOpen())
     {
- 
+        while(window.pollEvent(input))
+        {
+            if(input.type == Event::KeyPressed && input.key.code == Keyboard::Escape)
+            {
+                window.close();
+            }
+            //if cursor moves, check for mouse location and update cursor text
+            //if mouse is clicked, zoomIn/zoomOut, set up new View
+        }
     }
 
     return 0;

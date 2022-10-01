@@ -81,3 +81,75 @@ using namespace sf;
         shade = iter_ratio * 255;
         //store shade value where ever its needed
     }
+
+    void ComplexPlane::loadAllText(sf::RenderWindow& window)
+    {
+        int resolutionWidth = VideoMode::getDesktopMode().width;
+        int resolutionHeight = VideoMode::getDesktopMode().height;
+
+        Font arial;
+        arial.loadFromFile("arial.ttf");
+        double textPositionX = resolutionWidth / 100.0f;
+        double textPositionY = resolutionHeight / 100.0f;
+        double textSpacing = resolutionHeight / 20.f;
+
+        Text title, center, cursor, zoomI, zoomO;
+        title.setString("Mandelbrot Set");
+        title.setCharacterSize(20);
+        title.setFillColor(Color::White);
+        title.setFont(arial);
+
+        FloatRect textRect = title.getLocalBounds();
+        title.setOrigin(textRect.left,textRect.top);
+        title.setPosition(textPositionX, textPositionY);
+
+        string centerStr = "Center:(0,0)"; //change midprogram
+        center.setString(centerStr);
+        center.setCharacterSize(20);
+        center.setFillColor(Color::White);
+        center.setFont(arial);
+
+        textRect = center.getLocalBounds();
+        center.setOrigin(textRect.left,textRect.top);
+        center.setPosition(textPositionX, textPositionY+textSpacing);
+
+        //Change to display cursor in terms of complex plane instead of pixels
+        Vector2i localPosition = Mouse::getPosition(window);
+        string cursorStr;
+        ostringstream s;
+        s << "Cursor:(" << fixed << localPosition.x << "," << localPosition.y << ")";
+        cursorStr = s.str();
+        cursor.setString(cursorStr);
+        cursor.setCharacterSize(20);
+        cursor.setFillColor(Color::White);
+        cursor.setFont(arial);
+
+        textRect = cursor.getLocalBounds();
+        cursor.setOrigin(textRect.left,textRect.top);
+        cursor.setPosition(textPositionX, textPositionY+textSpacing*2);
+
+        zoomI.setString("Left-click to Zoom In");
+        zoomI.setCharacterSize(20);
+        zoomI.setFillColor(Color::White);
+        zoomI.setFont(arial);
+
+        textRect = zoomI.getLocalBounds();
+        zoomI.setOrigin(textRect.left,textRect.top);
+        zoomI.setPosition(textPositionX, textPositionY+textSpacing*3);
+
+        zoomO.setString("Right-click to Zoom Out");
+        zoomO.setCharacterSize(20);
+        zoomO.setFillColor(Color::White);
+        zoomO.setFont(arial);
+
+        textRect = zoomI.getLocalBounds();
+        zoomO.setOrigin(textRect.left,textRect.top);
+        zoomO.setPosition(textPositionX, textPositionY+textSpacing*4);
+
+        window.draw(title);
+        window.draw(center);
+        window.draw(cursor);
+        window.draw(zoomI);
+        window.draw(zoomO);
+        window.display();
+    }

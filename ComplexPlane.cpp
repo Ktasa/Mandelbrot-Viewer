@@ -5,6 +5,7 @@ using namespace std;
 using namespace sf;
 #include <iostream>
 #include <cmath>
+#include <sstream>
 
     ComplexPlane::ComplexPlane(double aspectRatio)
     {
@@ -37,15 +38,73 @@ using namespace sf;
         m_mouseLocation.x = coord.x;
         m_mouseLocation.y = coord.y;
     }
-    void ComplexPlane::loadText(Text& text)
+    //RenderWindow param added for testing
+    void ComplexPlane::loadText(Text& text, sf::RenderWindow& window)
     {
-        //use stringstream and corresponding member variables
-        //to create output
-        //Mandelbrot Set
-        //Center:(0,0)
-        //Cursor:(0,0)
-        //Left-click to Zoom In
-        //Right-click to Zoom Out
+        int resolutionWidth = VideoMode::getDesktopMode().width;
+        int resolutionHeight = VideoMode::getDesktopMode().height;
+
+        Font arial;
+        arial.loadFromFile("arial.ttf");
+        double textPositionX = resolutionWidth / 100.0f;
+        double textPositionY = resolutionHeight / 100.0f;
+        double textSpacing = resolutionHeight / 20.f;
+
+        Text title, center, cursor, zoomI, zoomO;
+        title.setString("Mandelbrot Set");
+        title.setCharacterSize(20);
+        title.setFillColor(Color::White);
+        title.setFont(arial);
+
+        FloatRect textRect = title.getLocalBounds();
+        title.setOrigin(textRect.left,textRect.top);
+        title.setPosition(textPositionX, textPositionY);
+
+        string centerStr = "Center:(0,0)"; //use View object to get center position (convert to complex)
+        center.setString(centerStr);
+        center.setCharacterSize(20);
+        center.setFillColor(Color::White);
+        center.setFont(arial);
+
+        textRect = center.getLocalBounds();
+        center.setOrigin(textRect.left,textRect.top);
+        center.setPosition(textPositionX, textPositionY+textSpacing);
+
+        //Change to display cursor in terms of complex plane instead of pixels
+        cursor = text; 
+        cursor.setCharacterSize(20);
+        cursor.setFillColor(Color::White);
+        cursor.setFont(arial);
+
+        textRect = cursor.getLocalBounds();
+        cursor.setOrigin(textRect.left,textRect.top);
+        cursor.setPosition(textPositionX, textPositionY+textSpacing*2);
+
+        zoomI.setString("Left-click to Zoom In");
+        zoomI.setCharacterSize(20);
+        zoomI.setFillColor(Color::White);
+        zoomI.setFont(arial);
+
+        textRect = zoomI.getLocalBounds();
+        zoomI.setOrigin(textRect.left,textRect.top);
+        zoomI.setPosition(textPositionX, textPositionY+textSpacing*3);
+
+        zoomO.setString("Right-click to Zoom Out");
+        zoomO.setCharacterSize(20);
+        zoomO.setFillColor(Color::White);
+        zoomO.setFont(arial);
+
+        textRect = zoomI.getLocalBounds();
+        zoomO.setOrigin(textRect.left,textRect.top);
+        zoomO.setPosition(textPositionX, textPositionY+textSpacing*4);
+
+        window.draw(title);
+        window.draw(center);
+        window.draw(cursor);
+        window.draw(zoomI);
+        window.draw(zoomO);
+        window.display();
+
     }
     View ComplexPlane::getView()
     {
@@ -103,7 +162,7 @@ using namespace sf;
         title.setOrigin(textRect.left,textRect.top);
         title.setPosition(textPositionX, textPositionY);
 
-        string centerStr = "Center:(0,0)"; //change midprogram
+        string centerStr = "Center:(0,0)"; //use View object to get center position (convert to complex)
         center.setString(centerStr);
         center.setCharacterSize(20);
         center.setFillColor(Color::White);
@@ -117,7 +176,7 @@ using namespace sf;
         Vector2i localPosition = Mouse::getPosition(window);
         string cursorStr;
         ostringstream s;
-        s << "Cursor:(" << fixed << localPosition.x << "," << localPosition.y << ")";
+        s << "Cursor:(" << localPosition.x << "," << localPosition.y << ")";
         cursorStr = s.str();
         cursor.setString(cursorStr);
         cursor.setCharacterSize(20);
@@ -153,3 +212,4 @@ using namespace sf;
         window.draw(zoomO);
         window.display();
     }
+    

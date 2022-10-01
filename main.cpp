@@ -29,19 +29,54 @@ int main ()
     enum State{ CALCULATING, DISPLAYING };
     State progState = CALCULATING;
 
-    test_plane.loadAllText(window);
+    ComplexPlane plane(aspectRatio);
 
-    Event input;
+    //this function is used to load text before the mouse moves, may be unnecessary
+    plane.loadAllText(window);
+
+    Event event;
     while(window.isOpen())
     {
-        while(window.pollEvent(input))
+        while(window.pollEvent(event))
         {
-            if(input.type == Event::KeyPressed && input.key.code == Keyboard::Escape)
+            if(event.type == Event::KeyPressed && event.key.code == Keyboard::Escape)
             {
                 window.close();
             }
-            //if cursor moves, check for mouse location and update cursor text
-            //if mouse is clicked, zoomIn/zoomOut, set up new View
+
+            //if mouse moves, check for mouse location and update cursor text
+            if (event.type == sf::Event::MouseMoved)
+            {
+                window.clear(); //maybe have text in a separate view to avoid clearing mandelbrot set
+                //set new mouse location
+                Vector2f mouseLocation;
+                mouseLocation.x = event.mouseMove.x;
+                mouseLocation.y = event.mouseMove.y;
+                plane.setMouseLocation(mouseLocation);
+                //update cursor text
+                Text cursor;
+                ostringstream cursorStream;
+                cursorStream << "Cursor:(" << mouseLocation.x << ", " << mouseLocation.y << ")";
+                cursor.setString(cursorStream.str());
+                plane.loadText(cursor, window);
+            }
+
+            //if mouse is clicked, zoomIn/zoomOut, set up new View / set center
+            if (event.type == sf::Event::MouseButtonPressed)
+            {
+                if (event.mouseButton.button == sf::Mouse::Left)
+                {
+                    std::cout << "the left button was pressed" << std::endl;
+                    std::cout << "mouse x: " << event.mouseButton.x << std::endl;
+                    std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+                }
+                else if (event.mouseButton.button == sf::Mouse::Right)
+                {
+                    std::cout << "the right button was pressed" << std::endl;
+                    std::cout << "mouse x: " << event.mouseButton.x << std::endl;
+                    std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+                }
+            }
         }
     }
 

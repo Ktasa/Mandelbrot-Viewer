@@ -39,7 +39,8 @@ int main ()
     {
         while(window.pollEvent(event))
         {
-            if(event.type == Event::KeyPressed && event.key.code == Keyboard::Escape)
+            if(event.type == sf::Event::Closed || 
+              (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape))
             {
                 window.close();
             }

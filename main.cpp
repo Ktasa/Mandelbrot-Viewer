@@ -19,12 +19,13 @@ int main ()
 
     RectangleShape rectangle;
 
-    //iteration counter test
+    /*iteration counter test
     Vector2f test_coord;
     test_coord.x = 5;
     test_coord.y = 0; //imaginary part
     ComplexPlane test_plane(aspectRatio); 
     test_plane.countIterations(test_coord);
+    */
 
     enum State{ CALCULATING, DISPLAYING };
     State progState = CALCULATING;
@@ -55,7 +56,7 @@ int main ()
                 mouseLocation.y = event.mouseMove.y;
                 plane.setMouseLocation(mouseLocation);
                 //update cursor text
-                Text cursor;
+                Text cursor; //maybe just pass coordinates instead of doing text set up here
                 ostringstream cursorStream;
                 cursorStream << "Cursor:(" << mouseLocation.x << ", " << mouseLocation.y << ")";
                 cursor.setString(cursorStream.str());
@@ -67,12 +68,14 @@ int main ()
             {
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
+                    //Zoom In
                     std::cout << "the left button was pressed" << std::endl;
                     std::cout << "mouse x: " << event.mouseButton.x << std::endl;
                     std::cout << "mouse y: " << event.mouseButton.y << std::endl;
                 }
                 else if (event.mouseButton.button == sf::Mouse::Right)
                 {
+                    //Zoom Out
                     std::cout << "the right button was pressed" << std::endl;
                     std::cout << "mouse x: " << event.mouseButton.x << std::endl;
                     std::cout << "mouse y: " << event.mouseButton.y << std::endl;

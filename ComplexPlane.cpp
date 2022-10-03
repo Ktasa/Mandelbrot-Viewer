@@ -31,12 +31,10 @@ using namespace sf;
     void ComplexPlane::setCenter(Vector2f coord)
     {
         m_view.setCenter(coord.x, coord.y);
-        //sf::View::setCenter() is its own SFML function
     }
     void ComplexPlane::setMouseLocation(Vector2f coord)
     {
-        m_mouseLocation.x = coord.x;
-        m_mouseLocation.y = coord.y;
+        m_mouseLocation = coord;
     }
     //RenderWindow param added for testing
     void ComplexPlane::loadText(sf::RenderWindow& window)
@@ -84,16 +82,10 @@ using namespace sf;
         complex<double> z (0,0);
 
         size_t i = 0;
-        //bool escaped = false;
         while (i < MAX_ITER && abs(z) < 2.0)
         {
             z = z*z + c;
             i++;
-            //if (abs(z) > 2.0)
-            //{
-            //   escaped = true;
-            //}
-            //else {i++;}
         }
         //cout << "total iterations: " << i << endl;
         return i;
@@ -105,6 +97,6 @@ using namespace sf;
         r = iter_ratio * 255;
         g = iter_ratio * 255;
         b = iter_ratio * 255;
-        //high iteration count gets darker?
+        //high iteration count gets darker
     }
     

@@ -26,6 +26,7 @@ int main ()
     ComplexPlane plane(aspectRatio);
 
     //this function is used to load text before the mouse moves, may be unnecessary
+    
     Vector2i mouseLocation = sf::Mouse::getPosition(window);
     Vector2f mouseLocationF;
     mouseLocationF.x = mouseLocation.x;
@@ -33,6 +34,7 @@ int main ()
     plane.setMouseLocation(mouseLocationF);
     plane.loadText(window);
     window.display();
+    
     /*
     View view0 = plane.getView();
     Vector2f centerCoord = view0.getCenter();
@@ -48,13 +50,8 @@ int main ()
     Uint8 r, g, b = 0;
     int pixIndex = 0;
     View view = plane.getView();
-    //Vector2i pixelPos;
-    //Vector2f pixelCoord;
-    //size_t iterations;
-    //Vector2f pixelPosF;
-    //Color color;
     
-    for(int i= 0; i < resolutionWidth; i++)
+    for(int i=0; i < resolutionWidth; i++)
     {
         for(int j=0; j< resolutionHeight; j++)
         {
@@ -63,14 +60,11 @@ int main ()
             size_t iterations = plane.countIterations(pixelCoord);
             plane.iterationsToRGB(iterations, r, g, b);
             Color color(r,g,b);
-            vArray[pixIndex].position = {double(i),double(j)};
+            vArray[pixIndex].position = {float(i),float(j)};
             vArray[pixIndex].color = color;
             pixIndex++;
-            //cout << "Pixel position: " << pixelPos.x << ", " << pixelPos.y << endl;
-            //cout << "Pixel coord: " << pixelCoord.x << ", " << pixelCoord.y << endl;
-        }
+        }   
     }
-    
     window.draw(vArray);
     window.display();
     

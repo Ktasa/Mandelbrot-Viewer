@@ -26,7 +26,13 @@ int main ()
     ComplexPlane plane(aspectRatio);
 
     //this function is used to load text before the mouse moves, may be unnecessary
-    plane.loadAllText(window);
+    Vector2i mouseLocation = sf::Mouse::getPosition(window);
+    Vector2f mouseLocationF;
+    mouseLocationF.x = mouseLocation.x;
+    mouseLocationF.y = mouseLocation.y;
+    plane.setMouseLocation(mouseLocationF);
+    plane.loadText(window);
+    window.display();
     /*
     View view0 = plane.getView();
     Vector2f centerCoord = view0.getCenter();
@@ -67,7 +73,9 @@ int main ()
     
     window.draw(vArray);
     window.display();
+    
     //stall for testing above drawing
+    /*
     Event event;
     while(window.isOpen())
     {
@@ -79,9 +87,9 @@ int main ()
                     window.close();
                 }
         }
-    } 
+    } */
 
-/*
+
     Event event;
     while(window.isOpen())
     {
@@ -93,7 +101,6 @@ int main ()
                 window.close();
             }
             
-
             //if mouse moves, check for mouse location and update cursor text
             if (event.type == sf::Event::MouseMoved)
             {
@@ -103,22 +110,10 @@ int main ()
                 mouseLocation.x = event.mouseMove.x;
                 mouseLocation.y = event.mouseMove.y;
                 plane.setMouseLocation(mouseLocation);
-                Vector2i mouseLocationInt;
-                mouseLocationInt.x = event.mouseMove.x;
-                mouseLocation.y = event.mouseMove.y;
-                cout << "Pixel X: " << mouseLocation.x << endl;
-                cout << "Pixel Y: " << mouseLocation.y << endl;
-
-                Vector2f mouseCoord = window.mapPixelToCoords(mouseLocationInt, plane.getView());
-                cout << "Coord X: " << mouseCoord.x << endl;
-                cout << "Coord Y: " << mouseCoord.y << endl;
-                //update cursor text
-                Text cursor; //maybe just pass coordinates instead of doing text set up here
-                ostringstream cursorStream;
-                cursorStream << "Cursor:(" << fixed << mouseCoord.x << ", " << mouseCoord.y << ")";
-                cursor.setString(cursorStream.str());
                 
-                plane.loadText(cursor, window);
+                //things drawn in the function can be displayed outside
+                plane.loadText(window);
+                window.display();
             }
 
             //if mouse is clicked, zoomIn/zoomOut, set up new View / set center
@@ -141,7 +136,6 @@ int main ()
             }
         }
     }
-    */
 
     return 0;
     

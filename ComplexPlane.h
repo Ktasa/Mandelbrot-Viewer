@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 using namespace sf;
 
-const unsigned int MAX_ITER = 64;
+const unsigned int MAX_ITER = 16; //(64) temporarily reduced to 16 to make drawing faster
 const float BASE_WIDTH = 4.0;
 const float BASE_HEIGHT = 4.0;
 const float BASE_ZOOM = 0.5;
@@ -20,8 +20,7 @@ public:
     void loadText(Text& text, sf::RenderWindow& window); //window added for testing
     View getView();
     size_t countIterations(Vector2f coord);
-    //void iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b);
-    void iterationsToBW(size_t count, Uint8& shade); 
+    void iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b);
     
     //temporary function to update all the text at once
     void loadAllText(sf::RenderWindow& window);

@@ -112,33 +112,32 @@ using namespace sf;
     }
     size_t ComplexPlane::countIterations(Vector2f coord)
     {
-        double re = coord.x;
-        double im = coord.y; 
-        complex<double> c (re, im);
+        complex<double> c (coord.x, coord.y);
         complex<double> z (0,0);
 
         size_t i = 0;
-        bool escaped = false;
-        while (i < MAX_ITER && !escaped)
+        //bool escaped = false;
+        while (i < MAX_ITER && abs(z) < 2.0)
         {
             z = z*z + c;
-            if (abs(z) > 2.0)
-            {
-                escaped = true;
-            }
-            else {i++;}
+            i++;
+            //if (abs(z) > 2.0)
+            //{
+            //   escaped = true;
+            //}
+            //else {i++;}
         }
         //cout << "total iterations: " << i << endl;
         return i;
     }
     
-    //void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b){}
-    //actually BW can still use RGB values so maybe keep the 1st function
-    void ComplexPlane::iterationsToBW(size_t count, Uint8& shade)
+    void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b)
     {
         double iter_ratio = count / 64.0;
-        shade = iter_ratio * 255;
-        //store shade value where ever its needed
+        r = iter_ratio * 255;
+        g = iter_ratio * 255;
+        b = iter_ratio * 255;
+        //high iteration count gets darker?
     }
 
     void ComplexPlane::loadAllText(sf::RenderWindow& window)
@@ -172,13 +171,11 @@ using namespace sf;
         center.setOrigin(textRect.left,textRect.top);
         center.setPosition(textPositionX, textPositionY+textSpacing);
 
-        //Change to display cursor in terms of complex plane instead of pixels
-        Vector2i localPosition = Mouse::getPosition(window);
-        string cursorStr;
-        ostringstream s;
-        s << "Cursor:(" << localPosition.x << "," << localPosition.y << ")";
-        cursorStr = s.str();
-        cursor.setString(cursorStr);
+        Vector2i mouseLocation = Mouse::getPosition(window);
+        Vector2f mouseCoord = window.mapPixelToCoords(mouseLocation, m_view);
+        ostringstream cursorStream;
+        cursorStream << "Cursor:(" << fixed << mouseCoord.x << ", " << mouseCoord.y << ")";
+        cursor.setString(cursorStream.str());
         cursor.setCharacterSize(20);
         cursor.setFillColor(Color::White);
         cursor.setFont(arial);

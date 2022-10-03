@@ -24,16 +24,6 @@ int main ()
     State progState = CALCULATING;
 
     ComplexPlane plane(aspectRatio);
-
-    //this function is used to load text before the mouse moves, may be unnecessary
-    
-    Vector2i mouseLocation = sf::Mouse::getPosition(window);
-    Vector2f mouseLocationF;
-    mouseLocationF.x = mouseLocation.x;
-    mouseLocationF.y = mouseLocation.y;
-    plane.setMouseLocation(mouseLocationF);
-    plane.loadText(window);
-    window.display();
     
     /*
     View view0 = plane.getView();
@@ -45,9 +35,8 @@ int main ()
     cout << "Size Y: " << size.y << endl;
     */
 
-
     VertexArray vArray(sf::Points, resolutionWidth * resolutionHeight);
-    Uint8 r, g, b = 0;
+    Uint8 r = 0, g = 0, b = 0;
     int pixIndex = 0;
     View view = plane.getView();
     
@@ -67,6 +56,14 @@ int main ()
     }
     window.draw(vArray);
     window.display();
+    cout << "No error after 1st draw" << endl;
+
+    Text hud;
+    Vector2i mouseLocation = sf::Mouse::getPosition(window);
+    Vector2f cursorCoord = window.mapPixelToCoords(mouseLocation, plane.getView());
+    plane.setMouseLocation(cursorCoord);
+    plane.loadText(hud, window);
+    window.display();
     
     //stall for testing above drawing
     /*
@@ -81,8 +78,8 @@ int main ()
                     window.close();
                 }
         }
-    } */
-
+    } 
+*/
 
     Event event;
     while(window.isOpen())
@@ -94,20 +91,25 @@ int main ()
             {
                 window.close();
             }
-            
+            //cout << "Before mouse moved event..." << endl;
             //if mouse moves, check for mouse location and update cursor text
             if (event.type == sf::Event::MouseMoved)
             {
-                window.clear(); //maybe have text in a separate view to avoid clearing mandelbrot set
+                //window.clear(); //maybe have text in a separate view to avoid clearing mandelbrot set
                 //set new mouse location
-                Vector2f mouseLocation;
+                //Vector2i mouseLocation = sf::Mouse::getPosition(window);
+                Vector2i mouseLocation;
                 mouseLocation.x = event.mouseMove.x;
                 mouseLocation.y = event.mouseMove.y;
-                plane.setMouseLocation(mouseLocation);
+                Vector2f cursorCoord = window.mapPixelToCoords(mouseLocation, plane.getView());
+                plane.setMouseLocation(cursorCoord);
                 
                 //things drawn in the function can be displayed outside
-                plane.loadText(window);
-                window.display();
+                //plane.loadText(hud, window);
+                //window.draw(hud);
+                //window.display();
+                progState = DISPLAYING;
+                cout << "Mouse moved has no error\n";
             }
 
             //if mouse is clicked, zoomIn/zoomOut, set up new View / set center
@@ -116,20 +118,69 @@ int main ()
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
                     //Zoom In
+                    Vector2i mouseLocation;
+                    mouseLocation.x = event.mouseButton.x;
+                    mouseLocation.y = event.mouseButton.y;
+                    Vector2f centerCoord = window.mapPixelToCoords(mouseLocation, plane.getView());
+                    plane.setCenter(centerCoord);
+                    plane.zoomIn();
                     std::cout << "the left button was pressed" << std::endl;
-                    std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-                    std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+                    //std::cout << "mouse x: " << event.mouseButton.x << std::endl;
+                    //std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+                    progState = CALCULATING;
                 }
                 else if (event.mouseButton.button == sf::Mouse::Right)
                 {
                     //Zoom Out
+                    Vector2i mouseLocation;
+                    mouseLocation.x = event.mouseButton.x;
+                    mouseLocation.y = event.mouseButton.y;
+                    Vector2f centerCoord = window.mapPixelToCoords(mouseLocation, plane.getView());
+                    plane.setCenter(centerCoord);
+                    plane.zoomOut();
                     std::cout << "the right button was pressed" << std::endl;
-                    std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-                    std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+                    //std::cout << "mouse x: " << event.mouseButton.x << std::endl;
+                    //std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+                    progState = CALCULATING;
                 }
             }
-        }
+            if(progState == CALCULATING)
+            {   
+                cout << "Calculating..." << endl;
+                VertexArray vArray(sf::Points, resolutionWidth * resolutionHeight);
+                Uint8 r = 0, g = 0, b = 0;
+                int pixIndex = 0;
+                View view = plane.getView();
+                
+                for(int i=0; i < resolutionWidth; i++)
+                {
+                    for(int j=0; j< resolutionHeight; j++)
+                    {
+                        Vector2i pixelPos = {i,j};
+                        Vector2f pixelCoord = window.mapPixelToCoords(pixelPos, view);
+                        size_t iterations = plane.countIterations(pixelCoord);
+                        plane.iterationsToRGB(iterations, r, g, b);
+                        Color color(r,g,b);
+                        vArray[pixIndex].position = {float(i),float(j)};
+                        vArray[pixIndex].color = color;
+                        pixIndex++;
+                    }   
+                }
+                progState = DISPLAYING;                   
+            }
+            if (progState == DISPLAYING)
+            {
+                //cout << "Displaying..." << endl;
+                window.clear();
+                window.draw(vArray);
+                plane.loadText(hud, window);
+                window.display();
+                //cout << "Displaying success" << endl;
+            }
+            cout << "Input loop success" << endl;
+        } 
     }
+    
 
     return 0;
     

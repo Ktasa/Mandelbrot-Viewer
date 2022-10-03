@@ -17,7 +17,7 @@ public:
     void zoomOut();
     void setCenter(Vector2f coord);
     void setMouseLocation(Vector2f coord);
-    void loadText(sf::RenderWindow& window); //window added for testing
+    void loadText(Text& hud, sf::RenderWindow& window); 
     View getView();
     size_t countIterations(Vector2f coord);
     void iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b);

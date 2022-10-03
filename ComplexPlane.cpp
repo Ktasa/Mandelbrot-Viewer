@@ -37,8 +37,9 @@ using namespace sf;
         m_mouseLocation = coord;
     }
     //RenderWindow param added for testing
-    void ComplexPlane::loadText(sf::RenderWindow& window)
+    void ComplexPlane::loadText(Text& hud, sf::RenderWindow& window)
     {
+        cout << "enter load text..." << endl;
         int resolutionWidth = VideoMode::getDesktopMode().width;
         int resolutionHeight = VideoMode::getDesktopMode().height;
 
@@ -48,7 +49,6 @@ using namespace sf;
         double textPositionY = resolutionHeight / 100.0f;
         //double textSpacing = resolutionHeight / 20.f;
 
-        Text hud;
         hud.setCharacterSize(20);
         hud.setFillColor(Color::White);
         hud.setFont(arial);
@@ -56,21 +56,19 @@ using namespace sf;
         FloatRect textRect = hud.getLocalBounds();
         hud.setOrigin(textRect.left,textRect.top);
         hud.setPosition(textPositionX, textPositionY);
-
+        
+        cout << "enter ostream..." << endl;
         ostringstream hudStream;
         hudStream << "Mandelbrot Set" << endl;
         Vector2f centerCoord = m_view.getCenter();
         hudStream << "Center:(" << centerCoord.x << ", " << centerCoord.y << ")" << endl;
-        Vector2i mousePixels;
-        mousePixels.x = m_mouseLocation.x;
-        mousePixels.y = m_mouseLocation.y;
-        Vector2f cursorCoord = window.mapPixelToCoords(mousePixels, m_view);
-        hudStream << "Cursor:(" << cursorCoord.x << ", " << cursorCoord.y << ")" << endl;
+        hudStream << "Cursor:(" << m_mouseLocation.x << ", " << m_mouseLocation.y << ")" << endl;
         hudStream << "Left-click to Zoom In" << endl << "Right-click to Zoom Out" << endl;
-        
+        cout << "enter setStr()..." << endl;
         hud.setString(hudStream.str());
         window.draw(hud);
         //window.display();
+        cout << "Total Success" << endl;
     }
     View ComplexPlane::getView()
     {

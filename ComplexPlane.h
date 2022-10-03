@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 using namespace sf;
 
-const unsigned int MAX_ITER = 16; //(64) temporarily reduced to 16 to make drawing faster
+const unsigned int MAX_ITER = 64; //(64) temporarily reduced to 16 to make drawing faster
 const float BASE_WIDTH = 4.0;
 const float BASE_HEIGHT = 4.0;
 const float BASE_ZOOM = 0.5;

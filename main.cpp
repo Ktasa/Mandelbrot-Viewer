@@ -50,32 +50,36 @@ int main ()
     
     for(int i= 0; i < resolutionWidth; i++)
     {
-        if(i%10==0)
+        for(int j=0; j< resolutionHeight; j++)
         {
-            for(int j=0; j< resolutionHeight; j++)
-            {
-                if(j%10==0)
-                {
-                    Vector2i pixelPos = {i,j};
-                    Vector2f pixelCoord = window.mapPixelToCoords(pixelPos, view);
-                    size_t iterations = plane.countIterations(pixelCoord);
-
-                    plane.iterationsToRGB(iterations, r, g, b);
-                    Color color(r,g,b);
-                    vArray[pixIndex].position = {float(i),float(j)};
-                    vArray[pixIndex].color = color;
-                    window.draw(vArray);
-                    window.display();
-                    pixIndex++;
-                    //cout << "Pixel position: " << pixelPos.x << ", " << pixelPos.y << endl;
-                    //cout << "Pixel coord: " << pixelCoord.x << ", " << pixelCoord.y << endl;
-                }
-            }
+            Vector2i pixelPos = {i,j};
+            Vector2f pixelCoord = window.mapPixelToCoords(pixelPos, view);
+            size_t iterations = plane.countIterations(pixelCoord);
+            plane.iterationsToRGB(iterations, r, g, b);
+            Color color(r,g,b);
+            vArray[pixIndex].position = {double(i),double(j)};
+            vArray[pixIndex].color = color;
+            pixIndex++;
+            //cout << "Pixel position: " << pixelPos.x << ", " << pixelPos.y << endl;
+            //cout << "Pixel coord: " << pixelCoord.x << ", " << pixelCoord.y << endl;
         }
-        //window.display();
     }
+    
+    window.draw(vArray);
     window.display();
-    while(window.isOpen()){}
+    //stall for testing above drawing
+    Event event;
+    while(window.isOpen())
+    {
+        while(window.pollEvent(event))
+        {
+            if(event.type == sf::Event::Closed || 
+                (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape))
+                {
+                    window.close();
+                }
+        }
+    } 
 
 /*
     Event event;
@@ -88,6 +92,7 @@ int main ()
             {
                 window.close();
             }
+            
 
             //if mouse moves, check for mouse location and update cursor text
             if (event.type == sf::Event::MouseMoved)

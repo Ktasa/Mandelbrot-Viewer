@@ -101,9 +101,10 @@ using namespace sf;
 
         //"Ocean wave" texture, looks like an ocean painting the more you zoom in
         double test_ratio = 0.5;
+        
         if (iter_ratio > test_ratio)
         {
-            r *= pow(iter_ratio, 1);
+            r *= pow(iter_ratio, 1); 
             g /= pow(iter_ratio, 1);
             b /= pow(iter_ratio, 1);
         }
@@ -119,7 +120,17 @@ using namespace sf;
             g /= pow(iter_ratio, 3);
             b /= pow(iter_ratio, 3);
         }
-        
-        //high iteration count gets darker
+        else if (iter_ratio > test_ratio / 8)
+        {
+            r *= pow(iter_ratio, 4);
+            g /= pow(iter_ratio, 4);
+            b /= pow(iter_ratio, 4);
+        }
+        else if (iter_ratio > test_ratio / 16)
+        {
+            r *= pow(iter_ratio, 5);
+            g /= pow(iter_ratio, 5);
+            b /= pow(iter_ratio, 5);
+        }
     }
     

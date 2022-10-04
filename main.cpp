@@ -169,12 +169,10 @@ int main ()
             } 
             if (progState == DISPLAYING)
             {
-                //cout << "Displaying..." << endl;
                 window.clear();
                 window.draw(vArray);
                 plane.loadText(hud, window);
                 window.display();
-                //cout << "Displaying success" << endl;
             }
         } 
     }

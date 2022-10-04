@@ -93,9 +93,9 @@ using namespace sf;
     void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b)
     {
         double iter_ratio = double(count) / MAX_ITER;
-        r = iter_ratio * 255;
-        g = iter_ratio * 255;
-        b = iter_ratio * 255;
+        r = iter_ratio * 255; //218; //for green color
+        g = iter_ratio * 255; //247;
+        b = iter_ratio * 255; //166;
         
         //red accent color scheme
         //r *= 2-iter_ratio;

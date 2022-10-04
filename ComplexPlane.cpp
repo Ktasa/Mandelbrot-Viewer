@@ -135,5 +135,9 @@ using namespace sf;
             g /= pow(iter_ratio, 5);
             b /= pow(iter_ratio, 5);
         }
+
+        //Invert Colors
+        //r = abs(255-r);
+        //g = abs(255-g);
+        //b = abs(255-b);
     }
-    

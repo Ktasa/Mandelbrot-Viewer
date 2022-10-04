@@ -93,6 +93,33 @@ using namespace sf;
         r = iter_ratio * 255;
         g = iter_ratio * 255;
         b = iter_ratio * 255;
+        
+        //red accent color scheme
+        //r *= 2-iter_ratio;
+        //g /= 2-iter_ratio;
+        //b /= 2-iter_ratio;
+
+        //"Ocean wave" texture, looks like an ocean painting the more you zoom in
+        double test_ratio = 0.5;
+        if (iter_ratio > test_ratio)
+        {
+            r *= pow(iter_ratio, 1);
+            g /= pow(iter_ratio, 1);
+            b /= pow(iter_ratio, 1);
+        }
+        else if (iter_ratio > test_ratio / 2)
+        {
+            r *= pow(iter_ratio, 2);
+            g /= pow(iter_ratio, 2);
+            b /= pow(iter_ratio, 2);
+        }
+        else if (iter_ratio > test_ratio / 4)
+        {
+            r *= pow(iter_ratio, 3);
+            g /= pow(iter_ratio, 3);
+            b /= pow(iter_ratio, 3);
+        }
+        
         //high iteration count gets darker
     }
     

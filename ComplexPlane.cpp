@@ -103,7 +103,7 @@ using namespace sf;
         //b /= 2-iter_ratio;
 
         //"Ocean wave" texture, looks like an ocean painting the more you zoom in
-        double test_ratio = 0.5;
+        double test_ratio = 0.5; //higher the number the more compact the colors will be
         
         if (iter_ratio > test_ratio)
         {

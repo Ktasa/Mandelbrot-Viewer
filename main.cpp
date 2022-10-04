@@ -24,24 +24,6 @@ int main ()
     State progState = IDLE;
 
     ComplexPlane plane(aspectRatio);
-    
-    /* //view tester
-    View view0 = plane.getView();
-    Vector2f centerCoord = view0.getCenter();
-    cout << "Center X: " << centerCoord.x << endl;
-    cout << "Center Y: " << centerCoord.y << endl;
-    Vector2f size = view0.getSize();
-    cout << "Size X: " << size.x << endl;
-    cout << "Size Y: " << size.y << endl;
-    */
-   /*
-    Vector2i xy;
-    xy.x = 1000;
-    xy.y = 500;
-    Vector2f centerCoordTest = window.mapPixelToCoords(xy, plane.getView());
-    plane.setCenter(centerCoordTest);
-    plane.zoomIn();
-    */
 
     VertexArray vArray(sf::Points, resolutionWidth * resolutionHeight);
     Uint8 r = 0, g = 0, b = 0;
@@ -64,7 +46,6 @@ int main ()
     }
     window.draw(vArray);
     window.display();
-    //cout << "No error after 1st draw" << endl;
 
     Text hud;
     Vector2i mouseLocation = sf::Mouse::getPosition(window);
@@ -73,21 +54,6 @@ int main ()
     plane.loadText(hud, window);
     window.display();
     
-    //stall for testing above drawing
-    /*
-    Event event;
-    while(window.isOpen())
-    {
-        while(window.pollEvent(event))
-        {
-            if(event.type == sf::Event::Closed || 
-                (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape))
-                {
-                    window.close();
-                }
-        }
-    } 
-*/
     int mouseCount = 0; //variable to prevent displaying too frequently due to mouse movement
     Event event;
     while(window.isOpen())
@@ -103,12 +69,12 @@ int main ()
             if (event.type == sf::Event::MouseMoved)
             {
                 //set new mouse location
-                //Vector2i mouseLocation = sf::Mouse::getPosition(window);
                 Vector2i mouseLocation;
                 mouseLocation.x = event.mouseMove.x;
                 mouseLocation.y = event.mouseMove.y;
                 Vector2f cursorCoord = window.mapPixelToCoords(mouseLocation, plane.getView());
                 plane.setMouseLocation(cursorCoord);
+
                 //limit screen updates to prevent lagging
                 if (mouseCount%10 == 0)
                 {
@@ -131,7 +97,6 @@ int main ()
                     plane.setCenter(centerCoord);
                     plane.zoomIn();
 
-                    //std::cout << "the left button was pressed" << std::endl;
                     progState = CALCULATING;
                 }
                 else if (event.mouseButton.button == sf::Mouse::Right)
@@ -144,13 +109,11 @@ int main ()
                     plane.setCenter(centerCoord);
                     plane.zoomOut();
 
-                    //std::cout << "the right button was pressed" << std::endl;
                     progState = CALCULATING;
                 }
             }
             if(progState == CALCULATING)
             {   
-                cout << "Calculating..." << endl;
                 //VertexArray vArray(sf::Points, resolutionWidth * resolutionHeight);
                 Uint8 r = 0, g = 0, b = 0;
                 int pixIndex = 0;
@@ -182,7 +145,6 @@ int main ()
             }
         } 
     }
-    
 
     return 0;
     

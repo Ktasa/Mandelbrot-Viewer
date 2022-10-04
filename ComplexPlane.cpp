@@ -48,7 +48,7 @@ using namespace sf;
         double textPositionY = resolutionHeight / 100.0f;
         //double textSpacing = resolutionHeight / 20.f;
 
-        hud.setCharacterSize(20);
+        hud.setCharacterSize(26);
         hud.setFillColor(Color::White);
         hud.setFont(arial);
 
@@ -62,9 +62,12 @@ using namespace sf;
         hudStream << "Center:(" << centerCoord.x << ", " << centerCoord.y << ")" << endl;
         hudStream << "Cursor:(" << m_mouseLocation.x << ", " << m_mouseLocation.y << ")" << endl;
         hudStream << "Left-click to Zoom In" << endl << "Right-click to Zoom Out" << endl;
-
         hud.setString(hudStream.str());
+
+        hud.setOutlineColor(Color::Black);
+        hud.setOutlineThickness(1);
         window.draw(hud);
+
         //window.display();
         //cout << "LoadText Success" << endl;
     }

@@ -39,7 +39,6 @@ using namespace sf;
     //RenderWindow param added for testing
     void ComplexPlane::loadText(Text& hud, sf::RenderWindow& window)
     {
-        cout << "enter load text..." << endl;
         int resolutionWidth = VideoMode::getDesktopMode().width;
         int resolutionHeight = VideoMode::getDesktopMode().height;
 
@@ -57,18 +56,17 @@ using namespace sf;
         hud.setOrigin(textRect.left,textRect.top);
         hud.setPosition(textPositionX, textPositionY);
         
-        cout << "enter ostream..." << endl;
         ostringstream hudStream;
         hudStream << "Mandelbrot Set" << endl;
         Vector2f centerCoord = m_view.getCenter();
         hudStream << "Center:(" << centerCoord.x << ", " << centerCoord.y << ")" << endl;
         hudStream << "Cursor:(" << m_mouseLocation.x << ", " << m_mouseLocation.y << ")" << endl;
         hudStream << "Left-click to Zoom In" << endl << "Right-click to Zoom Out" << endl;
-        cout << "enter setStr()..." << endl;
+
         hud.setString(hudStream.str());
         window.draw(hud);
         //window.display();
-        cout << "Total Success" << endl;
+        //cout << "LoadText Success" << endl;
     }
     View ComplexPlane::getView()
     {

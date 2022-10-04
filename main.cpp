@@ -20,8 +20,8 @@ int main ()
 
     RectangleShape rectangle;
 
-    enum State{ CALCULATING, DISPLAYING };
-    State progState = CALCULATING;
+    enum State{ CALCULATING, DISPLAYING, IDLE };
+    State progState = IDLE;
 
     ComplexPlane plane(aspectRatio);
     
@@ -88,7 +88,7 @@ int main ()
         }
     } 
 */
-
+    int mouseCount = 0; //variable to prevent displaying too frequently due to mouse movement
     Event event;
     while(window.isOpen())
     {
@@ -109,10 +109,15 @@ int main ()
                 mouseLocation.y = event.mouseMove.y;
                 Vector2f cursorCoord = window.mapPixelToCoords(mouseLocation, plane.getView());
                 plane.setMouseLocation(cursorCoord);
-                
-                progState = DISPLAYING;
+                //limit screen updates to prevent lagging
+                if (mouseCount%10 == 0)
+                {
+                    progState = DISPLAYING;
+                }
+                mouseCount++;
+                mouseCount %= 100;
             }
-
+            
             //if mouse is clicked, zoomIn/zoomOut, set up new View / set center
             if (event.type == sf::Event::MouseButtonPressed)
             {
@@ -173,6 +178,7 @@ int main ()
                 window.draw(vArray);
                 plane.loadText(hud, window);
                 window.display();
+                progState = IDLE;
             }
         } 
     }
